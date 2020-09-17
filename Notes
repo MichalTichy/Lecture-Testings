@@ -1,0 +1,108 @@
+	1. Prezencka
+	2. Co se dnes bude dit
+	3. Uvod do Xunitu - Execution sequence Tests
+		1. Test method
+		2. Test Theory
+		3. Skipped testy
+			1. Melo by to byt jen docasne reseni
+			2. Pripadne pokud na serveru ktery spousti testy (CI) chceme ignorovat nektere testy protoze z nejakeho duvodu na CI nechceme zpoustet
+		4. nonSharedFixture
+			1. Hodi se kdyz potrebujeme mit pro kazdy test instanci nejakehe tridy.
+Nevyuziva se zadna specialni metoda ale zivotni cyklus objektu => konstruktor a dispose metoda
+			2. Ctor
+			3. Dispose
+		5. classSharedFixture
+			1. Kdy se to hodi? - potrebujeme instanci neceho u cehoz vytvoreni trva moc dlouho
+			2. TestFixtures princip
+			3. ClassSharedTestFixture trida
+			4. Ctor ClassSharedTestFixture
+			5. Dispose ClassSharedTestFixture
+			6. IClassFixture<ClassSharedTestFixture>
+			7. Ctor
+		6. GroupSharedFixture
+			1. Pro pripady ze potrebujeme sdilet stejnou instanci mezi vice tridami.
+			2. GroupSharedFixture trida - kopie ClassSharedTestFixture
+			3. TestGroupTestCollection - CollectionDefinition attr
+				1. Toto slouzi k definovani nazvu skupiny a prirazeni TestFixtures
+			4. Collection attribut
+			5. Pridani GroupSharedFixture do konstruktoru
+			6. Zalozeni druhe testovaci tridy pro ukazku
+			7. Ukazat v debug okne
+	4. Testy na kalkulacku
+		1. Add testy - ukazat theory a zminit testovani jak vybirat parametry (obvykle scenare + krajni podminky) + ukazat rozdil mezi isSame a isEqual
+		2. Overflow - o overflow chceme vedet.
+Overflow na arriane 5 zpusobil vybuch
+		3. Ukazat jak udelat aby se vyhodila vyjimka kdyz dojde k overflow - checked blok (neaplikuje se na volane funkce v ramci checked bloku).
+		4. Zminit ze jde nastavit aby se defaultne vse vyhodnocovalo jako checked/unchecked
+		5. Throw overflow testy
+		6. Sub testy
+		7. Code coverage
+			1. Ciste ve VS
+			2. V resharperu
+		8. Ukazat ze nam chyby test na default na switch
+		9. Doplnit test na defualt pomoci Assert.Throws na InvalidOperationException
+		10. Ukazat live testy
+			1. Ve VS
+			2. V Resharperu
+	5. TasksRepository testy
+		1. Database fixture
+			1. Metoda CreateDbContext(string dbName = nameof(TasksDbContext)) 
+			2. S SQL serverem
+			3. optionsBuilder.EnableSensitiveDataLogging();
+toto zpusobi ze pripadne chybove hlasky budou obsahovat informace ktere pomuzou pri debugovani (property values,…)
+			4. Ctor prepeare database => dbx.Database.EnsureCreated();
+			5. Zatim vynechat Teardown
+		2. Size uz by jsme mohli zacit testovat ale je cistci si vytvorit jeste Fixture primo pro to co testujeme => TasksRepositoryFixture
+			6. Prop Repository naplnene v konstruktoru
+		3. Jak chceme aby byla TasksRepository sdilena?
+			1. V ramci tridy/skupiny => toto by vedlo k tomu ze pokud v jednom testu neco pridame tak v dalsim to tam porad jeste bude.
+Toto se muze hodit pokud mame x testu co potrebuji nejak specificky naplnenou databazi
+V nasem pripade pouzijeme unikatni Db pro kazdy test
+			2. Vytvorime instanci TRFixture v ctor a v dispose ji zase zrusime
+		4. Test na Item Add
+			1. Nekontrolujeme pomoci metody GetTasks ale pomoci kontextu
+		5. Test na GetItems prazdna db
+		6. Test na GetItems jeden item
+			1. Nezapomenout na submit changes
+		7. Test na GetItems vice itemu
+		8. Spustit testy poprve
+		9. Co se stane kdyz je spustime znovu? Spadnou protoze necistime DB
+			1. Teardown v Dispose DatabaseFixture
+			2. Ukazat InMemory
+				1. Data jsou sdilena pro vsechny instance co maji stejny nazev
+		10. Spustit znovu testy => vse zelene
+	6. Ukazat zajimave casti IW5 final projektu
+		1. Link kde to najdou
+https://github.com/FitIW/5/tree/master/Labs/Exercise-06-demoApp
+		2. rict ze to obsahuje testy jak na DAL a BL a I testy na VM
+		3. V rychlosti ukazat Mock
+			1. Ukazat ze VM ma zavyslosti ktere nechceme testovat
+			2. Knihovna Moq
+			3. Mockovani
+				1. Podvrhnuti zavyslosti testovane tridy tak, aby jsme mohli testovat jen danou tridu bez jejich zavyslosti.
+			4. Jak specifikovat chovani nejake motedy - 24
+			5. Jak overit ze byla metoda zavolana - 50
+			6. Jak overit ze byla metoda zavolana s nejakym parametrem - 100
+	7. AzureDev ops - CI
+		1. Co to je
+		2. Vyhody
+		3. Vytvoreni pipeline
+			1. Klikatko vs YAML
+			2. Use the classic editor to create a pipeline without YAML.
+			3. Zdroje kodu
+			4. Co vse jde delat
+				1. Skoro jakykoliv jazyk
+				2. Build projektu, spousteni testu + pripadne vse co jde udelat z powershellu
+Nektere akce jdou jen na agentech ktere si sami hostujeme
+			5. My chceme build + test
+				1. Prazdna pipeline
+				2. Ukazat agent pool
+				3. Ukazat triggery
+				4. .net core build
+				5. .net core test
+				6. Na deploy radsi pouzivat release pipelines
+				7. Commitem spustit pipeline
+	8. Sebrat prezencku		
+			
+			
+		
