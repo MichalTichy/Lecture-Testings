@@ -1,4 +1,5 @@
-﻿using IW5_Tests;
+﻿using TestedApplication;
+using TestedApplication.Database;
 
 namespace xUnitTests.Database
 {

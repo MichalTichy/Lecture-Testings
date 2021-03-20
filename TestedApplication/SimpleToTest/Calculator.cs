@@ -1,6 +1,7 @@
 ﻿using System;
+using TestedApplication.Database;
 
-namespace IW5_Tests
+namespace TestedApplication.SimpleToTest
 {
     public static class Calculator
     {

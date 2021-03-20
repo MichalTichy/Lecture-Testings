@@ -7,24 +7,24 @@ namespace xUnitTests
 {
 
     [Collection("TestGroup")]
-    public class ExecutionSequenceTests : IClassFixture<ClassSharedTestFixture>, IDisposable
+    public class XUnitShowCaseTests : IClassFixture<ClassSharedTestFixture>, IDisposable
     {
-        private readonly TestFixture nonSharedFixture;
+        private readonly TestFixture _nonSharedFixture;
 
-        private readonly ClassSharedTestFixture classSharedFixture;
+        private readonly ClassSharedTestFixture _classSharedFixture;
 
-        private readonly GroupSharedFixture groupSharedFixture;
+        private readonly GroupSharedFixture _groupSharedFixture;
 
-        public ExecutionSequenceTests(ClassSharedTestFixture classSharedFixture, GroupSharedFixture groupSharedFixture)
+        public XUnitShowCaseTests(ClassSharedTestFixture classSharedFixture, GroupSharedFixture groupSharedFixture)
         {
             //instance for each individual test run
-            this.nonSharedFixture = new TestFixture();
+            this._nonSharedFixture = new TestFixture();
 
             //shared instance between all tests in this class
-            this.classSharedFixture = classSharedFixture;
+            this._classSharedFixture = classSharedFixture;
 
             //shared between all tests in the same group
-            this.groupSharedFixture = groupSharedFixture;
+            this._groupSharedFixture = groupSharedFixture;
         }
 
         [Fact]
@@ -50,18 +50,18 @@ namespace xUnitTests
 
         public void Dispose()
         {
-            nonSharedFixture.Dispose();
+            _nonSharedFixture.Dispose();
         }
     }
 
     [Collection("TestGroup")]
     public class OtherTestClass
     {
-        private readonly GroupSharedFixture groupSharedFixture;
+        private readonly GroupSharedFixture _groupSharedFixture;
 
         public OtherTestClass(GroupSharedFixture groupSharedFixture)
         {
-            this.groupSharedFixture = groupSharedFixture;
+            this._groupSharedFixture = groupSharedFixture;
         }
 
         [Fact]

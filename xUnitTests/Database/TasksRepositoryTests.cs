@@ -1,34 +1,35 @@
 ﻿using System;
 using System.Linq;
-using IW5_Tests.Database;
+using System.Threading.Tasks;
+using TestedApplication.Database;
 using Xunit;
 
 namespace xUnitTests.Database
 {
     public class TasksRepositoryTests : IDisposable
     {
-        private readonly TasksRepositoryFixture tasksRepositoryFixture;
+        private readonly TasksRepositoryFixture _tasksRepositoryFixture;
 
         public TasksRepositoryTests()
         {
-            this.tasksRepositoryFixture = new TasksRepositoryFixture();
+            this._tasksRepositoryFixture = new TasksRepositoryFixture();
         }
 
         [Theory]
         [InlineData("Test")]
         [InlineData("")]
         [InlineData(null)]
-        public void AddTest(string itemText)
+        public async Task AddTest(string itemText)
         {
             //ARRANGE
-            var repository = tasksRepositoryFixture.Repository;
+            var repository = _tasksRepositoryFixture.Repository;
 
             //ACT
-            repository.Add(itemText);
+            await repository.AddTaskAsync(itemText);
 
             //ASSERT
             UserTask itemFromDb;
-            using (var dbContext = tasksRepositoryFixture.CreateDbContext())
+            using (var dbContext = _tasksRepositoryFixture.CreateDbContext())
             {
                 itemFromDb = dbContext.UserTasks.SingleOrDefault(t => t.Name == itemText);
             }
@@ -37,51 +38,53 @@ namespace xUnitTests.Database
         }
 
         [Fact]
-        public void GetTasksNoItemsTest()
+        public async Task GetTasksNoItemsTest()
         {
             //ARRANGE
-            var repository = tasksRepositoryFixture.Repository;
+            var repository = _tasksRepositoryFixture.Repository;
 
             //ACT
-            var tasks = repository.GetTasks();
+            var tasks = await repository.GetTasksAsync();
 
             //ASSERT
             Assert.Empty(tasks);
         }
         [Fact]
-        public void GetTasksSingleItemTest()
+        public async Task GetTasksSingleItemTest()
         {
             //ARRANGE
-            var dbContext = tasksRepositoryFixture.CreateDbContext();
-            dbContext.UserTasks.Add(new UserTask() { Name = "TEST" });
-            dbContext.SaveChanges();
+            await using var dbContext = _tasksRepositoryFixture.CreateDbContext();
+            await dbContext.UserTasks.AddAsync(new UserTask() { Name = "TEST" });
+            await dbContext.SaveChangesAsync();
 
-            var repository = tasksRepositoryFixture.Repository;
+            var repository = _tasksRepositoryFixture.Repository;
 
             //ACT
-            var tasks = repository.GetTasks();
+            var tasks = await repository.GetTasksAsync();
 
             //ASSERT
             Assert.Single(tasks);
         }
 
         [Fact]
-        public void GetTasksMultipleItemsTest()
+        public async Task GetTasksMultipleItemsTest()
         {
             //ARRANGE
-            var dbContext = tasksRepositoryFixture.CreateDbContext();
             var expectedTaskCount = 2;
 
-            for (int i = 0; i < expectedTaskCount; i++)
+            await using (var dbContext = _tasksRepositoryFixture.CreateDbContext())
             {
-                dbContext.UserTasks.Add(new UserTask() { Name = "TEST" });
-            }
-            dbContext.SaveChanges();
+                for (int i = 0; i < expectedTaskCount; i++)
+                {
+                    await dbContext.UserTasks.AddAsync(new UserTask() { Name = "TEST" });
+                }
+                await dbContext.SaveChangesAsync();
+            };
 
-            var repository = tasksRepositoryFixture.Repository;
+            var repository = _tasksRepositoryFixture.Repository;
 
             //ACT
-            var tasks = repository.GetTasks();
+            var tasks = await repository.GetTasksAsync();
 
             //ASSERT
             var actualTaskCount = tasks.Count();
@@ -91,7 +94,7 @@ namespace xUnitTests.Database
 
         public void Dispose()
         {
-            tasksRepositoryFixture.Dispose();
+            _tasksRepositoryFixture.Dispose();
         }
     }
 }

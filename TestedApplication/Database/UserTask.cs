@@ -1,4 +1,4 @@
-namespace IW5_Tests.Database
+namespace TestedApplication.Database
 {
     public class UserTask
     {

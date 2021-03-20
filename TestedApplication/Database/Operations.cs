@@ -1,4 +1,4 @@
-namespace IW5_Tests
+namespace TestedApplication.Database
 {
     public enum Operations
     {

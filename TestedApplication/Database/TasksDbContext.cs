@@ -1,10 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using System.IO;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace IW5_Tests.Database
+namespace TestedApplication.Database
 {
     public class TasksDbContext : DbContext
     {

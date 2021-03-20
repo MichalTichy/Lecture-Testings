@@ -1,6 +1,6 @@
 ﻿using System;
-using IW5_Tests.Database;
 using Microsoft.EntityFrameworkCore;
+using TestedApplication.Database;
 
 namespace xUnitTests.Database
 {
