@@ -4,15 +4,8 @@ namespace TestedApplication.HardToTest
 {
     public class CountryDefenceController
     {
-        private readonly IMissileLauncher Launcher;
-        private readonly string _passCode;
-
-        public CountryDefenceController(IMissileLauncher launcher,string passCode)
-        {
-            Launcher = launcher;
-            _passCode = passCode;
-        }
-        public void DestroyEnemy(string secretCode)
+        private static readonly NuclerMissileLauncher Launcher = new NuclerMissileLauncher();
+        public static void DestroyEnemy(string secretCode)
         {
             if (!IsAuthorized(secretCode))
             {
@@ -27,9 +20,9 @@ namespace TestedApplication.HardToTest
             }
         }
 
-        private bool IsAuthorized(string secretCode)
+        private static bool IsAuthorized(string secretCode)
         {
-            return secretCode==_passCode;
+            return secretCode=="SuperSecretPassword";
         }
     }
 }
