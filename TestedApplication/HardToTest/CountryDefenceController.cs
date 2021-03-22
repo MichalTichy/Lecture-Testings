@@ -2,25 +2,19 @@
 
 namespace TestedApplication.HardToTest
 {
-    public class CountryDefenseController
+    public static class CountryDefenseController
     {
-        private readonly IMissileLauncher _launcher;
-        private string _authenticationCode;
+        private static readonly NuclerMissileLauncher Launcher = new NuclerMissileLauncher();
 
-        public CountryDefenseController(IMissileLauncher launcher, string authenticationCode)
-        {
-            _launcher = launcher;
-            _authenticationCode = authenticationCode;
-        }
 
-        public void DestroyEnemy(string secretCode)
+        public static void DestroyEnemy(string secretCode)
         {
             if (!IsAuthorized(secretCode))
             {
                 throw new AuthorizationFailedException();
             }
 
-            var succeed=_launcher.LaunchMissile();
+            var succeed=Launcher.LaunchMissile();
 
             if (!succeed)
             {
@@ -28,9 +22,9 @@ namespace TestedApplication.HardToTest
             }
         }
 
-        private bool IsAuthorized(string providedCode)
+        private static bool IsAuthorized(string providedCode)
         {
-            return providedCode==_authenticationCode;
+            return providedCode=="secretCode";
         }
     }
 }
