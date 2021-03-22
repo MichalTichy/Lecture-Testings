@@ -3,9 +3,9 @@ using TestedApplication.Database;
 
 namespace TestedApplication.SimpleToTest
 {
-    public static class Calculator
+    public class Calculator
     {
-        public static int Calculate(Operations command, int first, int second)
+        public int Calculate(Operations command, int first, int second)
         {
             switch (command)
             {
@@ -18,15 +18,16 @@ namespace TestedApplication.SimpleToTest
             }
         }
 
-        private static int Sub(int first, int second)
+        private int Sub(int first, int second)
         {
             checked
             {
                 return first - second;
             }
+
         }
 
-        private static int Add(int first, int second)
+        private int Add(int first, int second)
         {
             checked
             {
