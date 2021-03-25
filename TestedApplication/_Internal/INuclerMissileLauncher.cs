@@ -3,9 +3,8 @@
     public interface IMissileLauncher
     {
         /// <summary>
-        /// This method will launch nuclear retaliation.
+        /// This method will launch missile.
         /// </summary>
-        /// <returns>True if launch was successful.</returns>
         bool LaunchMissile();
     }
 }
