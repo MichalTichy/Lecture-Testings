@@ -20,11 +20,7 @@ namespace TestedApplication.SimpleToTest
 
         private int Sub(int first, int second)
         {
-            checked
-            {
-                return first - second;
-            }
-
+            return first - second;
         }
 
         private int Add(int first, int second)
