@@ -1,6 +1,6 @@
 ﻿namespace TestedApplication._Internal
 {
-    internal class NuclerMissileLauncher
+    internal class NuclerMissileLauncher : IMissileLauncher
     {
         /// <summary>
         /// This method will launch nuclear retaliation.
